@@ -17,10 +17,38 @@ class TextFormat implements ProfileFormatter
         $output .= "Education: " . $profile->getEducation()['degree'] . " at " . $profile->getEducation()['university'] . PHP_EOL;
         $output .= "Skills: " . implode(", ", $profile->getSkills()) . PHP_EOL;
 
-        // Add experience, certifications, etc.
-        $output .= "Experience:\n";
+        // Experience
+        $output .= "\nExperience:\n";
         foreach ($profile->getExperience() as $job) {
             $output .= "- " . $job['job_title'] . " at " . $job['company'] . " (" . $job['start_date'] . " to " . $job['end_date'] . ")\n";
+        }
+        $this->response = $output;
+
+        //Certifications
+        $output .= "\nCertifications:\n";
+        foreach ($profile->getCertifications() as $cert) {
+            $output .= "- " . $cert['name'] . "  " . "(" . $cert['date_earned'] .")\n";
+        }
+        $this->response = $output;
+
+        //Extra-Curricular Activities
+        $output .= "\nExtra-Curricular Activities:\n";
+        foreach ($profile->getExtracurricularActivities() as $acts) {
+            $output .= "- " . $acts['role'] . " of " . $acts['organization'] . " (" . $acts['start_date'] . " to " . $acts['end_date'] .")\n " . 'Description: '. $acts['description']."\n";
+        }
+        $this->response = $output;
+
+        //Languages
+        $output .= "\nLanguages:\n";
+        foreach ($profile->getLanguages() as $lan) {
+            $output .= "- " . $lan['language'] . ": " . $lan['proficiency']."\n";
+        }
+        $this->response = $output;
+
+        //References
+        $output .= "\nReferences:\n";
+        foreach ($profile->getReferences() as $ref) {
+            $output .= "- " . $ref['name'] . "\n " . $ref['position']. " at ". $ref['company']. "\n " . $ref['email'] . "\n " . $ref['phone_number']."\n";
         }
         $this->response = $output;
     }
