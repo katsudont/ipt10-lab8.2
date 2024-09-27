@@ -10,62 +10,76 @@ class HTMLFormat implements ProfileFormatter
 
     public function setData($profile)
     {
-        $output = "<h1>Profile of " . $profile->getFullName() . "</h1>";
-        $output .= "<p>Email: " . $profile->getContactDetails()['email'] . "</p>";
-        $output .= "<p>Phone: " . $profile->getContactDetails()['phone_number'] . "</p>";
-        $output .= "<h2>Education</h2>";
-        $output .= "<p>" . $profile->getEducation()['degree'] . " at " . $profile->getEducation()['university'] . "</p>";
-        $output .= "<h2>Skills</h2>";
-        $output .= "<p>" . implode(", ", $profile->getSkills()) . "</p>";
-        
-        //Experience
-        $output .= "<h2>Experience</h2><ul>";
-        foreach ($profile->getExperience() as $job) {
-            $output .= "<li>" . $job['job_title'] . " at " . $job['company'] . " (" . $job['start_date'] . " to " . $job['end_date'] . ")</li>";
+        $output = <<<HTML
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile of {$profile->getName()}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
         }
-
-        $output .= "</ul>";
-        $this->response = $output;
-
-        //Certifications
-        $output .= "<h2>Certificates</h2><ul>";
-        foreach ($profile->getCertifications() as $cert) {
-            $output .= "<li>" . $cert['name'] . "  " . "(" . $cert['date_earned'] . ")</li>";
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        $output .= "</ul>";
-        $this->response = $output;
-
-        //Extra-Curricular Activities
-        $output .= "<h2>Extra-Curricular Activities</h2><ul>";
-        foreach ($profile->getExtracurricularActivities() as $acts) {
-            $output .= "<li>" . $acts['role'] . " of " . $acts['organization'] . " (" . $acts['start_date'] . " to " . $acts['end_date'] .")" . "<br>". 'Description: '. $acts['description'] . "</li>";
+        h1, h2 {
+            color: #333;
+            text-align: center;
         }
-        
-        $output .= "</ul>";
-        $this->response = $output;
-
-        //Languages
-        $output .= "<h2>Languages</h2><ul>";
-        foreach ($profile->getLanguages() as $lan) {
-            $output .= "<li>" . $lan['language'] . ": " . $lan['proficiency']. "</li>";
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
-                
-        $output .= "</ul>";
-        $this->response = $output;
-
-        //References
-        $output .= "<h2>References</h2><ul>";
-        foreach ($profile->getReferences() as $ref) {
-            $output .= "<li>" . $ref['name'] . "<br>" . $ref['position']. " at ". $ref['company']. "<br>" . $ref['email'] . "<br>" . $ref['phone_number']."</li>";
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            text-align: justify;
         }
-                        
-        $output .= "</ul>";
+        .profile-img {
+            display: block;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            object-fit: cover;
+            border: 3px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Angeles University Foundation</h1>
+
+        <!-- Profile Image -->
+        <img src="https://www.auf.edu.ph/home/images/articles/bya.jpg" alt="Founder Image" class="profile-img">
+
+        <!-- Profile Information -->
+        <h2>{$profile->getName()}</h2>
+        <p><strong>Founder</strong></p>
+        <p>{$profile->getStory()}</p>
+    </div>
+
+</body>
+</html>
+HTML;
+
         $this->response = $output;
     }
 
     public function render()
     {
+        header('Content-Type: text/html');
         return $this->response;
     }
 }

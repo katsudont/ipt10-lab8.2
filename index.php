@@ -9,7 +9,7 @@ try {
 
     $route = new Route();
 
-    $route->get('/cv/[s:format]', ['App\ProfileHandler', 'display']);
+    $route->get('/founder/[s:format]', ['App\ProfileHandler', 'display']);
 
     $route->dispatch();
 
